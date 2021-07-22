@@ -1,4 +1,4 @@
-package com.example.dogapi
+package com.example.dogapi.viewmodel
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

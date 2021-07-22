@@ -1,8 +1,9 @@
-package com.example.dogapi
+package com.example.dogapi.viewmodel
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dogapi.R
 
 class DogAdapter(private val images: List<String>) : RecyclerView.Adapter<DogViewHolder>() {
 

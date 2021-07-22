@@ -1,13 +1,14 @@
-package com.example.dogapi
+package com.example.dogapi.view
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dogapi.viewmodel.DogAdapter
 import com.example.dogapi.databinding.ActivityMainBinding
+import com.example.dogapi.model.APIService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
