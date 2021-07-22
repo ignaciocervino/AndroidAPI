@@ -3,6 +3,7 @@ package com.example.dogapi
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,11 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         binding.rvDogs.adapter = adapter
     }
 
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.viewRoot.windowToken, 0)
+    }
+
     //Retrofit
     /*ESte objeto va a tener la URL original, el conversor de JSON al modelo de datos y toda la configuracion para hacer llamadas a internet*/
     private fun getRetrofit():Retrofit{
@@ -49,24 +55,25 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
 
     private fun searchByName(query:String){
         CoroutineScope(Dispatchers.IO).launch {
-            val call = getRetrofit().create(APIService::class.java).getDogsByBreeds("$query/images")//Funcion asyncrona
+            val call = getRetrofit().create(APIService::class.java).getDogsByBreeds("$query/images")
             val puppies = call.body()
             runOnUiThread {
                 if(call.isSuccessful){
-                    val images = puppies?.images ?: emptyList<String>()
+                    val images = puppies?.images ?: emptyList()
                     dogImages.clear()
                     dogImages.addAll(images)
                     adapter.notifyDataSetChanged()
                 }else{
                     showError()
                 }
+                hideKeyboard()
             }
         }
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if(!query.isNullOrEmpty()){
-            searchByName(query.toLowerCase())//PARA EVITAR PROBLEMAS SE LO PASAMOS EN MINUSCULAS
+            searchByName(query.lowercase())//PARA EVITAR PROBLEMAS SE LO PASAMOS EN MINUSCULAS
         }
         return true
     }
